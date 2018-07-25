@@ -3,8 +3,9 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+require('dotenv').config();
 
-var apiRouter = require('./routes/articles');
+var apiRouterArticles = require('./routes/articles');
 
 var app = express();
 
@@ -14,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'dist/mean-angular6')));
 
 app.use('/', express.static(path.join(__dirname, 'dist/mean-angular6')));
-app.use('/v1/api', apiRouter);
+app.use('/api/v1/articles', apiRouterArticles);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

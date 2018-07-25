@@ -1,46 +1,57 @@
 var express = require('express');
 var router = express.Router();
+require('dotenv').config();
+const ArticlesAdapter = require('../connectors/ArticlesAdapter');
 
-var Articles = require('../models/Articles.js');
+const articlesAdapter = new ArticlesAdapter({
+   "host": process.env.MYSQL_HOST,
+   "port": process.env.MYSQL_PORT,
+   "database": process.env.MYSQL_DATABASE,
+   "user": process.env.MYSQL_USER,
+   "password": process.env.MYSQL_PASSWORD,
+   "multipleStatements": true,
+   // "timezone": "+00:00",
+   // "dateStrings": true
+});
 
 /* GET ALL ARTICLES */
-router.get('/', function(req, res, next) {
-  Book.find(function (err, products) {
-    if (err) return next(err);
-    res.json(products);
-  });
+router.get('/', async (req, res, next) => {
+   const result = await articlesAdapter.GetArticles();
+   res.json(result);
 });
 
 /* GET SINGLE ARTICLE BY ID */
-router.get('/:id', function(req, res, next) {
-  Book.findById(req.params.id, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
+router.get('/:id', async (req, res, next) => {
+   const id = req.params.id
+   if (isNaN(id)) {
+      res.json({ message: "error id" });
+   } else {
+      const result = await articlesAdapter.GetArticleById(id);
+      res.json(result);
+   }
 });
 
-/* SAVE ARTICLE */
-router.post('/', function(req, res, next) {
-  Book.create(req.body, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
+/* NEW ARTICLE */
+router.post('/', async (req, res, next) => {
+   const article = {
+      title: req.body.title,
+      username: req.body.username,
+      tags: req.body.tags,
+      data: req.body.data,
+      state: req.body.state,
+   }
+   const result = await articlesAdapter.AddArticle(article);
+   res.json(result);
 });
 
 /* UPDATE ARTICLE */
-router.put('/:id', function(req, res, next) {
-  Book.findByIdAndUpdate(req.params.id, req.body, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
+router.put('/:id', async (req, res, next) => {
+   res.json({ message: "dummy" })
 });
 
 /* DELETE ARTICLE */
-router.delete('/:id', function(req, res, next) {
-  Book.findByIdAndRemove(req.params.id, req.body, function (err, post) {
-    if (err) return next(err);
-    res.json(post);
-  });
+router.delete('/:id', async (req, res, next) => {
+   res.json({ message: "dummy" })
 });
 
 module.exports = router;
