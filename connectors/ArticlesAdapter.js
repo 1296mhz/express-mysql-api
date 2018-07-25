@@ -6,7 +6,7 @@ class ArticlesAdapter {
       this.config = config;
       this.pool = mysql.createPool(this.config);
 
-   //   this.CreateTable();
+      //   this.CreateTable();
    }
 
    /**
@@ -45,9 +45,8 @@ class ArticlesAdapter {
    }
 
    /**
-   * Put row
-   * @param {*} user
-   * @param {*} token 
+   * Add article row
+   * @param {*} data 
    */
    async AddArticle(data) {
       const datetime = new Date();
@@ -67,37 +66,37 @@ class ArticlesAdapter {
       await conn.release();
       return rows;
    }
-   
+
    /**
-   * Delete row by token
-   * @param {*} user
-   * @param {*} token 
+   * Update article by id
+   * @param {*} data 
    */
-   async DeleteByToken(id) {
+   async UpdateArticle(data) {
+
+      const datetime = new Date();
+
+      const uD = {
+         id: data.id,
+         title: data.title,
+         tags: data.tags,
+         data: data.data,
+         state: data.state,
+         updated_at: moment.utc(datetime).format(formatDateTime)
+      }
+
       const conn = await this.pool.getConnection();
-      let [rows, fields] = await conn.query("DELETE FROM tokens WHERE token = ? LIMIT 1", [token]);
+      let [rows, fields] = await conn.query("UPDATE articles SET title=?, tags=?, data=?, state=?, updated_at=? WHERE id=?;", [uD.title, uD.tags, uD.data, uD.state, uD.updated_at, uD.id]);
       await conn.release();
       return rows;
    }
 
    /**
-    * Add portfolio to user
-    * @param {*} user 
-    * @param {*} portfolio 
-    */
-   async AddUserPortfolio(user, portfolio) {
+   * Delete row by id
+   * @param {*} id
+   */
+   async DeleteById(id) {
       const conn = await this.pool.getConnection();
-      let [rows, fields] = await conn.query("UPDATE users SET portfolio=JSON_ARRAY_APPEND(portfolio, '$', ?) where id=?;", [portfolio, user]);
-      await conn.release();
-      return rows;
-   }
-
-   /**
-    * Remove portfolio from user
-    */
-   async RemoveUserPortfolio(user, portfolio) {
-      const conn = await this.pool.getConnection();
-      let [rows, fields] = await conn.query("UPDATE users SET portfolio=JSON_REMOVE(`portfolio`,JSON_UNQUOTE(JSON_SEARCH(`portfolio`, 'one', ?))) where id=?;", [portfolio, user]);
+      let [rows, fields] = await conn.query("DELETE FROM articles WHERE id = ? LIMIT 1", [id]);
       await conn.release();
       return rows;
    }

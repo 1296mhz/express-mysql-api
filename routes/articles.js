@@ -46,12 +46,32 @@ router.post('/', async (req, res, next) => {
 
 /* UPDATE ARTICLE */
 router.put('/:id', async (req, res, next) => {
-   res.json({ message: "dummy" })
+
+   const id = req.params.id
+   if (isNaN(id)) {
+      res.json({ message: "error id" });
+   } else {
+      const article = {
+         id: id,
+         title: req.body.title,
+         tags: req.body.tags,
+         data: req.body.data,
+         state: req.body.state,
+      }
+      const result = await articlesAdapter.UpdateArticle(article);
+      res.json(result)
+   }
 });
 
 /* DELETE ARTICLE */
 router.delete('/:id', async (req, res, next) => {
-   res.json({ message: "dummy" })
+   const id = req.params.id;
+   if (isNaN(id)) {
+      res.json({ message: "error id" });
+   } else {
+      const result = await articlesAdapter.DeleteById(id);
+      res.json(result);
+   }
 });
 
 module.exports = router;
