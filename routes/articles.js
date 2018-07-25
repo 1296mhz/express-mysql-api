@@ -53,7 +53,7 @@ router.post('/', async (req, res, next) => {
       if(result.affectedRows === 1){
          res.json({ message: "Article created"})
       } else {
-         res.json({ message: "Article create error"})
+         res.json({ message: "Article create"})
       }
    } catch (err) {
       next(err);
