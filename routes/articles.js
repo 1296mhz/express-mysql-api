@@ -16,8 +16,12 @@ const articlesAdapter = new ArticlesAdapter({
 
 /* GET ALL ARTICLES */
 router.get('/', async (req, res, next) => {
-   const result = await articlesAdapter.GetArticles();
-   res.json(result);
+   try {
+      const result = await articlesAdapter.GetArticles();
+      res.json(result);
+   } catch (err) {
+      next(err)
+   }
 });
 
 /* GET SINGLE ARTICLE BY ID */
@@ -26,8 +30,12 @@ router.get('/:id', async (req, res, next) => {
    if (isNaN(id)) {
       res.json({ message: "error id" });
    } else {
-      const result = await articlesAdapter.GetArticleById(id);
-      res.json(result);
+      try {
+         const result = await articlesAdapter.GetArticleById(id);
+         res.json(result);
+      } catch (err) {
+         next(err);
+      }
    }
 });
 
@@ -40,13 +48,21 @@ router.post('/', async (req, res, next) => {
       data: req.body.data,
       state: req.body.state,
    }
-   const result = await articlesAdapter.AddArticle(article);
-   res.json(result);
+   try {
+      const result = await articlesAdapter.AddArticle(article);
+      if(result.affectedRows === 1){
+         res.json({ message: "Article created"})
+      } else {
+         res.json({ message: "Article create error"})
+      }
+   } catch (err) {
+      next(err);
+   }
+
 });
 
 /* UPDATE ARTICLE */
 router.put('/:id', async (req, res, next) => {
-
    const id = req.params.id
    if (isNaN(id)) {
       res.json({ message: "error id" });
@@ -58,8 +74,18 @@ router.put('/:id', async (req, res, next) => {
          data: req.body.data,
          state: req.body.state,
       }
-      const result = await articlesAdapter.UpdateArticle(article);
-      res.json(result)
+      try {
+         const result = await articlesAdapter.UpdateArticle(article);
+         if(result.affectedRows === 1){
+            res.json({ message: "Article updated " + id})
+         }else {
+            res.json({ message: "Article update error"})
+         }
+         
+      } catch (err) {
+         next(err);
+      }
+
    }
 });
 
@@ -69,8 +95,17 @@ router.delete('/:id', async (req, res, next) => {
    if (isNaN(id)) {
       res.json({ message: "error id" });
    } else {
-      const result = await articlesAdapter.DeleteById(id);
-      res.json(result);
+      try {
+         const result = await articlesAdapter.DeleteById(id);
+         if(result.affectedRows === 1){
+            res.json({ message: "Article deleted: " + id });
+         } else {
+            res.json({ mesage: "Delete error"});
+         }
+       
+      } catch (err) {
+         next(err);
+      }
    }
 });
 
