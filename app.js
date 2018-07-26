@@ -4,12 +4,16 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cors = require('cors');
+const helmet = require('helmet');
 require('dotenv').config();
 
 var apiRouterArticles = require('./routes/articles');
 
 var app = express();
+
 app.use(cors());
+app.use(helmet());
+app.disable('x-powered-by');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
