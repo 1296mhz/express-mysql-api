@@ -5,21 +5,39 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var passport = require('passport');
+var flash = require('connect-flash');
+var session = require('express-session');
 require('dotenv').config();
 
+var routes = require('./routes/index');
 var apiRouterArticles = require('./routes/articles');
 
 var app = express();
 
-app.use(cors());
-app.use(helmet());
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+//app.use(cors());
+// app.use(helmet());
 app.disable('x-powered-by');
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'dist/')));
 
-app.use('/', express.static(path.join(__dirname, 'dist/')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({ secret: 'shhsecret', resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+require('./config/passport')(passport);
+
+app.use('/', routes);
 app.use('/api/v1/articles', apiRouterArticles);
 
 // catch 404 and forward to error handler

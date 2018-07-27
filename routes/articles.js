@@ -58,7 +58,6 @@ router.post('/', async (req, res, next) => {
    } catch (err) {
       next(err);
    }
-
 });
 
 /* UPDATE ARTICLE */
