@@ -13,6 +13,7 @@ var session = require('express-session');
 require('dotenv').config();
 
 var routes = require('./routes/index');
+var profile = require('./routes/profile');
 var apiRouterArticles = require('./routes/articles');
 
 var app = express();
@@ -20,7 +21,7 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-//app.use(cors());
+app.use(cors());
 // app.use(helmet());
 app.disable('x-powered-by');
 app.use(logger('dev'));
@@ -38,6 +39,8 @@ app.use(flash());
 require('./config/passport')(passport);
 
 app.use('/', routes);
+app.use('/', express.static(path.join(__dirname, 'dist')));
+app.use('/api/v1/profile', profile);
 app.use('/api/v1/articles', apiRouterArticles);
 
 // catch 404 and forward to error handler

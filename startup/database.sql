@@ -30,4 +30,17 @@ CREATE TABLE `submits` (
   KEY `index_username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `google_users` (
+   `id` VARCHAR(256) NOT NULL,
+   `token` VARCHAR(256) NOT NULL,
+   `email` VARCHAR(256) NOT NULL,
+   `name` VARCHAR(256),
+   `username` VARCHAR(256),
+   PRIMARY KEY (`id`),
+   INDEX `index_username` (`username`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB;
+
+
 

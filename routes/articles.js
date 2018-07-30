@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const isLoggedIn = require('../libs/isLoggedIn');
 require('dotenv').config();
 const ArticlesAdapter = require('../connectors/ArticlesAdapter');
 
@@ -25,7 +26,7 @@ router.get('/', async (req, res, next) => {
 });
 
 /* GET SINGLE ARTICLE BY ID */
-router.get('/:id', async (req, res, next) => {
+router.get('/:id',  async (req, res, next) => {
    const id = req.params.id
    if (isNaN(id)) {
       res.json({ message: "error id" });
@@ -40,7 +41,7 @@ router.get('/:id', async (req, res, next) => {
 });
 
 /* NEW ARTICLE */
-router.post('/', async (req, res, next) => {
+router.post('/',  async (req, res, next) => {
    const article = {
       title: req.body.title,
       username: req.body.username,
