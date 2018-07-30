@@ -48,7 +48,8 @@ module.exports = function (passport) {
       async function(token, refreshToken, profile, done) {
 
          const user = await googleUserAdapter.GetUserById(profile.id);
-    
+         console.log("Profile: ")
+         console.log(profile.photos[0])
          if (user.length > 0) {
             let u = user[0]
             return done(null, u);
@@ -59,6 +60,8 @@ module.exports = function (passport) {
                newUser.token = token;
                newUser.name = profile.displayName;
                newUser.email = profile.emails[0].value;
+               newUser.photo = profile.photos[0].value;
+
                const result = await googleUserAdapter.AddUser(newUser);
                if(result.affectedRows === 1){
                   let newUserResult = await googleUserAdapter.GetUserById(profile.id);
