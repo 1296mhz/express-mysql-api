@@ -1,7 +1,12 @@
+require('dotenv').config();
+
+console.log("Process env")
+console.log(process.env);
+
 module.exports = {
   googleAuth: {
-    clientID: '',
-    clientSecret: '',
-    callbackURL: 'http://localhost:3001/auth/google/callback',
+    clientID: process.env.GOOGLE_AUTH_CLIENTID,
+    clientSecret: process.env.GOOGLE_AUTH_CLIENTSECRET,
+    callbackURL: process.env.GOOGLE_AUTH_CALLBACKURL,
   }
 };

@@ -1,25 +1,13 @@
 const mysql = require('mysql2/promise');
 const moment = require('moment');
 const formatDateTime = "YYYY-MM-DD HH:mm:ss";
+
 class ArticlesAdapter {
    constructor(config) {
       this.config = config;
       this.pool = mysql.createPool(this.config);
-
-      //   this.CreateTable();
    }
 
-   /**
-    * Create tables
-    */
-   /*
-   async CreateTable() {
-      const conn = await this.pool.getConnection();
-      const data = fs.readFileSync(path.resolve(__dirname, '../sql/migrations.sql'), { encoding: "UTF-8"});
-      const [rows, fields] = await conn.query(data, []);
-      await conn.release();
-   }
-*/
    /**
     * Get all articles
     * @param {*} id 
