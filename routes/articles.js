@@ -51,8 +51,9 @@ router.post('/',  async (req, res, next) => {
    }
    try {
       const result = await articlesAdapter.AddArticle(article);
+      console.log(result)
       if(result.affectedRows === 1){
-         res.json({ message: "Article created"})
+         res.json({ message: "Article created", id: result.insertId })
       } else {
          res.json({ message: "Article create"})
       }
