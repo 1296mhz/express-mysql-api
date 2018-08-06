@@ -47,7 +47,7 @@ router.post('/',  async (req, res, next) => {
       username: req.body.username,
       tags: req.body.tags,
       data: req.body.data,
-      state: req.body.state,
+      state: "created",
    }
    try {
       const result = await articlesAdapter.AddArticle(article);
