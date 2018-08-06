@@ -42,10 +42,11 @@ router.get('/:id',  async (req, res, next) => {
 
 /* NEW ARTICLE */
 router.post('/',  async (req, res, next) => {
+
    const submit = {
       _id: req.body._id,
       username: req.body.username,
-      blockchain_author: req.body.author,
+      blockchain_author: req.body.blockchain_author,
       block_num: req.body.block_num,
       ref_block_num: req.body.ref_block_num,
       ref_block_prefix: req.body.ref_block_prefix,
@@ -56,6 +57,9 @@ router.post('/',  async (req, res, next) => {
       permlink: req.body.permlink,
       award: req.body.award
    }
+
+   console.log("Submit")
+   console.log(submit)
    try {
       const result = await submitsAdapter.AddSubmit(submit);
       console.log(result)
