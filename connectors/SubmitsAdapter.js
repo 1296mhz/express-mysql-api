@@ -10,8 +10,8 @@ class SubmitsAdapter {
 
    /**
     * Get all articles
-    * @param {*} id 
-    * @param {*} limit 
+    * @param {*} id
+    * @param {*} limit
     */
    async GetSubmits(id, limit = 100) {
       const conn = await this.pool.getConnection();
@@ -22,8 +22,8 @@ class SubmitsAdapter {
 
    /**
     * Get articles by id
-    * @param {*} id 
-    * @param {*} limit 
+    * @param {*} id
+    * @param {*} limit
     */
    async GetSubmitById(id, limit = 1) {
       const conn = await this.pool.getConnection();
@@ -34,7 +34,7 @@ class SubmitsAdapter {
 
    /**
    * Add article row
-   * @param {*} data 
+   * @param {*} data
    */
    async AddSubmit(data) {
       const datetime = new Date();
@@ -68,7 +68,7 @@ class SubmitsAdapter {
 
    /**
    * Update article by id
-   * @param {*} data 
+   * @param {*} data
    */
    async UpdateSubmit(data) {
 

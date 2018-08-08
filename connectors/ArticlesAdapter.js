@@ -10,8 +10,8 @@ class ArticlesAdapter {
 
    /**
     * Get all articles
-    * @param {*} id 
-    * @param {*} limit 
+    * @param {*} id
+    * @param {*} limit
     */
    async GetArticles(id, limit = 100) {
       const conn = await this.pool.getConnection();
@@ -22,8 +22,8 @@ class ArticlesAdapter {
 
    /**
     * Get articles by id
-    * @param {*} id 
-    * @param {*} limit 
+    * @param {*} id
+    * @param {*} limit
     */
    async GetArticleById(id, limit = 1) {
       const conn = await this.pool.getConnection();
@@ -34,7 +34,7 @@ class ArticlesAdapter {
 
    /**
    * Add article row
-   * @param {*} data 
+   * @param {*} data
    */
    async AddArticle(data) {
       const datetime = new Date();
@@ -61,7 +61,7 @@ class ArticlesAdapter {
 
    /**
    * Update article by id
-   * @param {*} data 
+   * @param {*} data
    */
    async UpdateArticle(data) {
 
