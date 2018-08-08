@@ -39,13 +39,16 @@ class ArticlesAdapter {
    async AddArticle(data) {
       const datetime = new Date();
 
+      console.log("ADD " + moment(datetime).format(formatDateTime))
+      console.log("ADD UTC", moment.utc(datetime).format(formatDateTime))
+      let datetimeSave =  moment(datetime).format(formatDateTime)
       const uD = {
          title: data.title,
          username: data.username,
          tags: data.tags,
          data: data.data,
          state: data.state,
-         created_at: moment(datetime).format(formatDateTime)
+         created_at: datetimeSave
       }
       console.log("AddArticle")
       console.log(uD)
