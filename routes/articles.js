@@ -73,7 +73,7 @@ router.put('/:id', async (req, res, next) => {
          title: req.body.title,
          tags: req.body.tags,
          data: req.body.data,
-         state: req.body.state,
+         state: "created",
       }
       try {
          const result = await articlesAdapter.UpdateArticle(article);
