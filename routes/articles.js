@@ -46,6 +46,7 @@ router.post('/',  async (req, res, next) => {
       title: req.body.title,
       username: req.body.username,
       tags: req.body.tags,
+      publish_network: req.body.publish_network,
       data: req.body.data,
       state: "created",
    }
@@ -73,6 +74,7 @@ router.put('/:id', async (req, res, next) => {
          title: req.body.title,
          tags: req.body.tags,
          data: req.body.data,
+         publish_network: req.body.publish_network,
          state: "created",
       }
       try {
