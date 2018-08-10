@@ -5,7 +5,7 @@ CREATE TABLE `articles` (
   `title` varchar(256) NOT NULL,
   `username` varchar(256) NOT NULL,
   `tags` varchar(256) NOT NULL,
-  `publish_network` varchar(256),
+  `publish_network` text,
   `data` longtext,
   `state` enum('created','submit','vote') NOT NULL,
   `created_at` datetime DEFAULT NULL,
