@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 const isLoggedIn = require('../libs/isLoggedIn');
 require('dotenv').config();
-const ArticlesAdapter = require('../connectors/ArticlesAdapter');
+const SubmitsAdapter = require('../connectors/SubmitsAdapter');
 
-const articlesAdapter = new ArticlesAdapter({
+const submitsAdapter = new SubmitsAdapter({
    "host": process.env.MYSQL_HOST,
    "port": process.env.MYSQL_PORT,
    "database": process.env.MYSQL_DATABASE,
@@ -15,10 +15,10 @@ const articlesAdapter = new ArticlesAdapter({
    // "dateStrings": true
 });
 
-/* GET ALL ARTICLES */
+/* GET ALL Submits */
 router.get('/', async (req, res, next) => {
    try {
-      const result = await articlesAdapter.GetArticles();
+      const result = await submitsAdapter.GetSubmits();
       res.json(result);
    } catch (err) {
       next(err)
@@ -32,7 +32,7 @@ router.get('/:id',  async (req, res, next) => {
       res.json({ message: "error id" });
    } else {
       try {
-         const result = await articlesAdapter.GetArticleById(id);
+         const result = await submitsAdapter.GetSubmitById(id);
          res.json(result);
       } catch (err) {
          next(err);
@@ -42,21 +42,31 @@ router.get('/:id',  async (req, res, next) => {
 
 /* NEW ARTICLE */
 router.post('/',  async (req, res, next) => {
-   const article = {
-      title: req.body.title,
+
+   const submit = {
+      _id: req.body._id,
       username: req.body.username,
-      tags: req.body.tags,
-      publish_network: req.body.publish_network,
-      data: req.body.data,
-      state: "created",
+      blockchain_author: req.body.blockchain_author,
+      block_num: req.body.block_num,
+      ref_block_num: req.body.ref_block_num,
+      ref_block_prefix: req.body.ref_block_prefix,
+      expiration: req.body.expiration,
+      operations: req.body.operations,
+      target: req.body.target,
+      state: req.body.state,
+      permlink: req.body.permlink,
+      award: req.body.award
    }
+
+   console.log("Submit")
+   console.log(submit)
    try {
-      const result = await articlesAdapter.AddArticle(article);
+      const result = await submitsAdapter.AddSubmit(submit);
       console.log(result)
       if(result.affectedRows === 1){
-         res.json({ message: "Article created", id: result.insertId })
+         res.json({ message: "Submit created", id: result.insertId })
       } else {
-         res.json({ message: "Article create"})
+         res.json({ message: "Submit create"})
       }
    } catch (err) {
       next(err);
@@ -74,8 +84,7 @@ router.put('/:id', async (req, res, next) => {
          title: req.body.title,
          tags: req.body.tags,
          data: req.body.data,
-         publish_network: req.body.publish_network,
-         state: "created",
+         state: req.body.state,
       }
       try {
          const result = await articlesAdapter.UpdateArticle(article);

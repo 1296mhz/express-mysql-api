@@ -31,12 +31,12 @@ class GoogleUserAdapterAdapter {
          token: data.token,
          email: data.email,
          name: data.name,
-         username: data.username
+         photo: data.photo
       }
 
       console.log(uD)
       const conn = await this.pool.getConnection();
-      let [rows, fields] = await conn.query("INSERT INTO google_users(id, token, email, name, username) VALUES(?,?,?,?,?)", [uD.id, uD.token, uD.email, uD.name, uD.username]);
+      let [rows, fields] = await conn.query("INSERT INTO google_users(id, token, email, name, photo) VALUES(?,?,?,?,?)", [uD.id, uD.token, uD.email, uD.name, uD.photo]);
       await conn.release();
       return rows;
    }

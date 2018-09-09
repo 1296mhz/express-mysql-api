@@ -10,8 +10,8 @@ class ArticlesAdapter {
 
    /**
     * Get all articles
-    * @param {*} id 
-    * @param {*} limit 
+    * @param {*} id
+    * @param {*} limit
     */
    async GetArticles(id, limit = 100) {
       const conn = await this.pool.getConnection();
@@ -22,8 +22,8 @@ class ArticlesAdapter {
 
    /**
     * Get articles by id
-    * @param {*} id 
-    * @param {*} limit 
+    * @param {*} id
+    * @param {*} limit
     */
    async GetArticleById(id, limit = 1) {
       const conn = await this.pool.getConnection();
@@ -34,30 +34,35 @@ class ArticlesAdapter {
 
    /**
    * Add article row
-   * @param {*} data 
+   * @param {*} data
    */
    async AddArticle(data) {
       const datetime = new Date();
 
+      console.log("ADD " + moment(datetime).format(formatDateTime))
+      console.log("ADD UTC", moment.utc(datetime).format(formatDateTime))
+      let datetimeSave =  moment(datetime).format(formatDateTime)
       const uD = {
          title: data.title,
          username: data.username,
          tags: data.tags,
+         publish_network: data.publish_network,
          data: data.data,
          state: data.state,
-         created_at: moment.utc(datetime).format(formatDateTime)
+         created_at: datetimeSave
       }
-
+      console.log("AddArticle")
       console.log(uD)
       const conn = await this.pool.getConnection();
-      let [rows, fields] = await conn.query("INSERT INTO articles(title, username, tags, data, state, created_at) VALUES(?,?,?,?,?,?)", [uD.title, uD.username, uD.tags, uD.data, uD.state, uD.created_at]);
+      let [rows, fields] = await conn.query("INSERT INTO articles(title, username, tags, publish_network, data, state, created_at) VALUES(?,?,?,?,?,?,?)", [uD.title, uD.username, uD.tags, uD.publish_network, uD.data, uD.state, uD.created_at]);
+      console.log(rows)
       await conn.release();
       return rows;
    }
 
    /**
    * Update article by id
-   * @param {*} data 
+   * @param {*} data
    */
    async UpdateArticle(data) {
 
@@ -67,13 +72,14 @@ class ArticlesAdapter {
          id: data.id,
          title: data.title,
          tags: data.tags,
+         publish_network: data.publish_network,
          data: data.data,
          state: data.state,
          updated_at: moment.utc(datetime).format(formatDateTime)
       }
 
       const conn = await this.pool.getConnection();
-      let [rows, fields] = await conn.query("UPDATE articles SET title=?, tags=?, data=?, state=?, updated_at=? WHERE id=?;", [uD.title, uD.tags, uD.data, uD.state, uD.updated_at, uD.id]);
+      let [rows, fields] = await conn.query("UPDATE articles SET title=?, tags=?, publish_network=?, data=?, state=?, updated_at=? WHERE id=?;", [uD.title, uD.tags, uD.publish_network, uD.data, uD.state, uD.updated_at, uD.id]);
       await conn.release();
       return rows;
    }
