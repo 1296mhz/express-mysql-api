@@ -38,7 +38,7 @@ CREATE TABLE `submits` (
    `ref_block_prefix` INT UNSIGNED NOT NULL,
    `expiration` datetime DEFAULT NULL,
    `operations` varchar(32) NOT NULL,
-   `target` enum('vox','steemit','golos') NOT NULL,
+   `target` enum('vox','steemit','golos', 'voxTestNet') NOT NULL,
    `state` enum('submit_process','submitted','vote') NOT NULL,
    `permlink` varchar(512) NOT NULL,
    `award` varchar(256),

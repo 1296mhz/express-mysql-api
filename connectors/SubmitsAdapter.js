@@ -59,11 +59,28 @@ class SubmitsAdapter {
       console.log("UD: ");
       console.log(uD);
       const conn = await this.pool.getConnection();
-      let [rows, fields] = await conn.query("INSERT INTO submits(_id, username, blockchain_author, block_num, ref_block_num, ref_block_prefix, expiration, operations, target, state, permlink, award, created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)", 
-         [uD._id, uD.username, uD.blockchain_author, uD.block_num, uD.ref_block_num, uD.ref_block_prefix, uD.expiration, uD.operations, uD.target, uD.state, uD.permlink, uD.award, uD.created_at]);
-      console.log(rows)
-      await conn.release();
-      return rows;
+      try{
+        let [rows, fields] = await conn.query("INSERT INTO submits(_id, username, blockchain_author, block_num, ref_block_num, ref_block_prefix, expiration, operations, target, state, permlink, award, created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)", 
+        [uD._id, 
+           uD.username, 
+           uD.blockchain_author, 
+           uD.block_num, 
+           uD.ref_block_num, 
+           uD.ref_block_prefix, 
+           uD.expiration, 
+           uD.operations,
+           uD.target, 
+           uD.state, 
+            uD.permlink, 
+            uD.award, 
+            uD.created_at]);
+     console.log(rows)
+     await conn.release();
+     return rows;
+      }catch(err){
+            console.log("Err submit ", err)
+      }
+
    }
 
    /**
